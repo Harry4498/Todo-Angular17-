@@ -5,8 +5,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import { CdkDragDrop, DragDropModule, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { iTask } from '../model/interfacetask';
+import {
+  CdkDragDrop,
+  DragDropModule,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
+import { iTask } from '../model/interfaceTask';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 
@@ -22,7 +27,7 @@ import { CommonModule } from '@angular/common';
     ReactiveFormsModule,
     DragDropModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
   ],
   templateUrl: './todo.component.html',
   styleUrl: './todo.component.scss',
@@ -45,17 +50,17 @@ export class TodoComponent implements OnInit {
       item: ['', Validators.required],
     });
   }
-  toggleDone(item:iTask,index:number){
-      item.done=!item.done
-      if (item.done){
-      this.done.push(item)
-      this.tasks.splice(index,1)
-      }else{
+  toggleDone(item: iTask, index: number) {
+    item.done = !item.done;
+    if (item.done) {
+      this.done.push(item);
+      this.tasks.splice(index, 1);
+    } else {
       this.tasks.push(item);
-      this.done.splice(index,1);
-           }
-      this.saveToLocalStorage()
-     }
+      this.done.splice(index, 1);
+    }
+    this.saveToLocalStorage();
+  }
 
   onEdit(item: iTask, i: number) {
     this.todoForm.controls['item'].setValue(item.description);
@@ -98,7 +103,11 @@ export class TodoComponent implements OnInit {
 
   drop(event: CdkDragDrop<iTask[]>) {
     if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
     } else {
       transferArrayItem(
         event.previousContainer.data,
